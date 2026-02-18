@@ -5,6 +5,7 @@
     "lib": [
       "ES2022"
     ],
+    "outDir": "./dist",
     "declaration": true,
     "sourceMap": true,
     "strict": true,
@@ -32,6 +33,9 @@
       ]
     }
   },
+  "include": [
+    "src/**/*",
+  ],
   "exclude": [
     "node_modules",
     "dist"

@@ -42,6 +42,12 @@ mkdir -p "$NEW_SERVICE_DIR/src/modules/health"
 mkdir -p "$NEW_SERVICE_DIR/src/utils"
 mkdir -p "$NEW_SERVICE_DIR/logs"
 
+
+cat <<EOF > "$NEW_SERVICE_DIR/index.ts"
+import { start } from './src/server';
+start();
+EOF
+
 # Write package.json
 cat <<EOF > "$NEW_SERVICE_DIR/package.json"
 {
@@ -53,9 +59,14 @@ cat <<EOF > "$NEW_SERVICE_DIR/package.json"
   "type": "commonjs",
   "main": "index.ts",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node -r tsconfig-paths/register src/server.ts",
-    "dev": "nodemon -r tsconfig-paths/register src/server.ts"
+    "dev": "nodemon -r tsconfig-paths/register src/server.ts",
+    "db:generate": "npx drizzle-kit generate --config=src/database/drizzle.config.ts",
+    "db:migrate": "npx drizzle-kit migrate --config=src/database/drizzle.config.ts",
+    "db:studio": "npx drizzle-kit studio --config=src/database/drizzle.config.ts",
+    "db:seed": "ts-node -r tsconfig-paths/register src/database/seeds.execution.ts"
   },
    "dependencies": {
     "cors": "^2.8.6",
@@ -90,6 +101,7 @@ cat <<EOF > "$NEW_SERVICE_DIR/tsconfig.json"
     "lib": [
       "ES2022"
     ],
+    "outDir": "./dist",
     "declaration": true,
     "sourceMap": true,
     "strict": true,
@@ -108,6 +120,9 @@ cat <<EOF > "$NEW_SERVICE_DIR/tsconfig.json"
       ]
     }
   },
+  "include": [
+    "src"
+  ],
   "exclude": [
     "node_modules",
     "dist"
@@ -123,7 +138,7 @@ import { connectDB } from '@$SERVICE_LOWER/database/$SERVICE_LOWER.connection';
 import { config } from '@$SERVICE_LOWER/config/$SERVICE_LOWER.config';
 import { logger } from '@$SERVICE_LOWER/utils/logger';
 
-const start = async () => {
+export const start = async () => {
   logger.info(\`Starting \${config.service.name} Service...\`);
 
   await connectDB();

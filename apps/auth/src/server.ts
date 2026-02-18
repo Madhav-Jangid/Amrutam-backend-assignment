@@ -4,7 +4,7 @@ import { connectDB } from '@auth/database/auth.connection';
 import { config } from '@auth/config/auth.config';
 import { logger } from '@auth/utils/logger';
 
-const start = async () => {
+export const start = async () => {
   logger.info(`Starting ${config.service.name} Service...`);
 
   await connectDB();
