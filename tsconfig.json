@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "lib": [
+      "ES2022"
+    ],
+    "declaration": true,
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@workspace/*": [
+        "./*"
+      ],
+      "@auth/*": [
+        "apps/auth/src/*"
+      ],
+      "@doctor/*": [
+        "apps/doctor/src/*"
+      ],
+      "@workspace/common": [
+        "src/index.ts"
+      ],
+      "@workspace/common/*": [
+        "src/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
