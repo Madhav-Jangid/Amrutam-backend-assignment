@@ -59,7 +59,7 @@ cat <<EOF > "$NEW_SERVICE_DIR/package.json"
   "type": "commonjs",
   "main": "index.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node -r tsconfig-paths/register src/server.ts",
     "dev": "nodemon -r tsconfig-paths/register src/server.ts",
@@ -86,6 +86,7 @@ cat <<EOF > "$NEW_SERVICE_DIR/package.json"
     "drizzle-kit": "^0.31.9",
     "nodemon": "^3.1.11",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.8",
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.21.0"
   }
@@ -108,8 +109,7 @@ cat <<EOF > "$NEW_SERVICE_DIR/tsconfig.json"
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "rootDir": ".",
+    "moduleResolution": "node", 
     "baseUrl": ".",
     "paths": {
       "@/*": [
@@ -117,11 +117,19 @@ cat <<EOF > "$NEW_SERVICE_DIR/tsconfig.json"
       ],
       "@$SERVICE_LOWER/*": [
         "./src/*"
+      ],
+      "@workspace/common": [
+        "../../src/index.ts"
+      ],
+      "@workspace/common/*": [
+        "../../src/*"
       ]
     }
   },
   "include": [
-    "src"
+    "src",
+    "index.ts",
+    "../../src"
   ],
   "exclude": [
     "node_modules",

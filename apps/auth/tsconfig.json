@@ -13,7 +13,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
-    "rootDir": ".",
     "baseUrl": ".",
     "paths": {
       "@/*": [
@@ -21,9 +20,20 @@
       ],
       "@auth/*": [
         "./src/*"
+      ],
+      "@workspace/common": [
+        "../../src/index.ts"
+      ],
+      "@workspace/common/*": [
+        "../../src/*"
       ]
     }
   },
+  "include": [
+    "src",
+    "index.ts",
+    "../../src"
+  ],
   "exclude": [
     "node_modules",
     "dist"
