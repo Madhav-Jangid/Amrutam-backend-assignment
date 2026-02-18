@@ -22,6 +22,10 @@ app.use(auditLogger);
 app.use(rateLimiter);
 
 // Routes
+app.use('/', (req, res) => {
+  res.status(200).json({ message: "Welcome to Auth Service" });
+})
+
 app.use('/health', healthRouter);
 
 app.all('*', async (req: Request, res: Response) => {
