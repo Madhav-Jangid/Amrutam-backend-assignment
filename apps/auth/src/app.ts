@@ -7,6 +7,7 @@ import { errorHandler, NotFoundError } from '@workspace/common';
 import { auditLogger } from '@auth/middlewares/auth.audit-logger';
 import { rateLimiter } from '@auth/middlewares/auth.rate-limiter';
 import { healthRouter } from '@auth/modules/health/health.routes';
+import { logger } from './utils/logger';
 
 const app: express.Application = express();
 
@@ -24,6 +25,7 @@ app.use(rateLimiter);
 app.use('/health', healthRouter);
 
 app.all('*', async (req: Request, res: Response) => {
+  logger.warn(`Route not found: ${req.method} ${req.originalUrl}`);
   throw new NotFoundError();
 });
 
